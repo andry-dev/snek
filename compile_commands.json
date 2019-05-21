@@ -1,0 +1,13 @@
+[
+{
+  "directory": "/home/andry/exers/c/snake/build",
+  "command": "/bin/cc  -I../include    -o CMakeFiles/snake.dir/src/main.c.o   -c /home/andry/exers/c/snake/src/main.c",
+  "file": "/home/andry/exers/c/snake/src/main.c"
+},
+
+{
+  "directory": "/home/andry/exers/c/snake/build",
+  "command": "/bin/cc  -I../include    -o CMakeFiles/snake.dir/src/Game.c.o   -c /home/andry/exers/c/snake/src/Game.c",
+  "file": "/home/andry/exers/c/snake/src/Game.c"
+}
+]
