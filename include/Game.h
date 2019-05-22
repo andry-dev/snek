@@ -1,7 +1,8 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef SNAKE_GAME_H
+#define SNAKE_GAME_H
 
 #include "Entities.h"
+
 
 typedef struct
 {

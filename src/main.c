@@ -1,8 +1,6 @@
 #include "Game.h"
-#include "input/nix.h"
+#include "input/Common.h"
 
-#include <unistd.h>
-#include <termios.h>
 #include <stdio.h>
 
 void printSnake(Game* game)
@@ -21,7 +19,6 @@ void printSnake(Game* game)
 
 int main(void)
 {
-    struct termios term_settings;
     Vec2i maxScreen;
     scanf("%d", &maxScreen.x);
     scanf("%d", &maxScreen.y);
@@ -30,14 +27,15 @@ int main(void)
     char input;
     newDirection.x = 0;
     newDirection.y = -1;
-    initTerm(&term_settings); // Switches to no echo, unbuffered mode
 
-    printSnake(&game);
-    
+    TerminalContext* term = initTerm();
+
+    //printSnake(&game);
+
     // Game loop
     while (1)
     {
-        input = getch();
+        input = getch(term);
 
         switch (input)
         {
@@ -65,7 +63,7 @@ int main(void)
             newDirection.y = 0;
             break;
         }
-        
+
         moveSnake(&game.entities, &game.snake, newDirection);
 
         printSnake(&game);
@@ -78,7 +76,7 @@ int main(void)
         }
     }
 
-    restoreTermState(&term_settings); // Restores initial tty settings
+    deinitTerm(term);
     deinitGame(&game);
 
     return 0;
