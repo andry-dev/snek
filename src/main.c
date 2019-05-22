@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <stdio.h>
+#include "Renderer.h"
 
 void printSnake(Game* game)
 {
@@ -25,16 +26,18 @@ int main(void)
 
     printSnake(&game);
 
+    Screen screen = initScreen(game.screenCoords);
+
     // Game loop
     while (1)
     {
+
         Vec2i newDirection;
         newDirection.x = 0;
         newDirection.y = 0;
 
         char input = 0;
         scanf("%c\n", &input);
-
 
         switch (input)
         {
@@ -66,22 +69,22 @@ int main(void)
 
         moveSnake(&game.entities, &game.snake, newDirection);
 
-
         newDirection.x = 0;
         newDirection.y = 0;
-
-        printSnake(&game);
 
         int checkCollision = checkWallColisions(&game.entities, &game.screenCoords);
         if (checkCollision)
         {
             printf("You lose\n");
-            return 1;
+            break;
         }
 
+        clearScreen(&screen);
+        draw(&screen, &game.snake, &game.foods, &game.entities);
     }
 
 
+    deinitScreen(&screen);
     deinitGame(&game);
 
     return 0;
