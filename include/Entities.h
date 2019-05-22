@@ -9,6 +9,7 @@ typedef struct
 {
     Vec2i position;
     Vec2i direction;
+    char symbol;
 } Entity;
 
 typedef struct

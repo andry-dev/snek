@@ -17,7 +17,10 @@ Screen initScreen(Vec2i screenCoords)
 
 void deinitScreen(Screen* screen)
 {
-    free(screen->framebuffer);
+    if (screen->framebuffer)
+    {
+        free(screen->framebuffer);
+    }
 }
 
 void clearScreen(Screen* screen)
@@ -33,7 +36,6 @@ void clearScreen(Screen* screen)
 
 void draw(Screen* screen, Snake* snake, Foods* foods, EntityArray* entities)
 {
-#if 1
     // Left and right walls
     for (int y = 0; y < (screen->screenCoords.y); ++y)
     {
@@ -44,7 +46,6 @@ void draw(Screen* screen, Snake* snake, Foods* foods, EntityArray* entities)
         screen->framebuffer[leftwall] = '|';
         screen->framebuffer[rightwall] = '|';
     }
-#endif
 
     // Top and bottom walls
     for (int x = 0; x < (screen->screenCoords.x); ++x)
@@ -60,18 +61,12 @@ void draw(Screen* screen, Snake* snake, Foods* foods, EntityArray* entities)
     // Render snake on the screen
     for (int i = 0; i < snake->length; ++i)
     {
-        Vec2i* snakepos = &entities->arr[i].position;
+        Entity* snake = &entities->arr[i];
+        Vec2i* snakepos = &snake->position;
         const int ypos = snakepos->y;
         const int coords = ypos * screen->screenCoords.x + snakepos->x;
 
-        if (i == 0)
-        {
-            screen->framebuffer[coords] = '>';
-        }
-        else
-        {
-            screen->framebuffer[coords] = '-';
-        }
+        screen->framebuffer[coords] = snake->symbol;
     }
 
     for (int i = 0; i < screen->screenCoords.x; ++i)

@@ -2,6 +2,48 @@
 
 #include <stdlib.h>
 
+static char assignHeadSymbol(Vec2i direction)
+{
+    char ret = ' ';
+
+    if (direction.x == 1)
+    {
+        ret = '>';
+    }
+    else if (direction.x == -1)
+    {
+        ret = '<';
+    }
+    else if (direction.y == -1)
+    {
+        ret = '^';
+    }
+    else if (direction.y == 1)
+    {
+        ret = 'v';
+    }
+
+    return ret;
+}
+
+static char assignBodySymbol(Vec2i direction)
+{
+    char ret = ' ';
+
+    if (direction.x == -1 ||
+        direction.x == 1)
+    {
+        ret = '-';
+    }
+    else if (direction.y == -1 ||
+             direction.y == 1)
+    {
+        ret = '|';
+    }
+
+    return ret;
+}
+
 Game initGame(Vec2i screenCoords)
 {
     Game game;
@@ -55,6 +97,8 @@ void moveSnake(EntityArray* entities, Snake* snake, Vec2i direction)
         Entity* oldent = &entities->arr[i - 1];
 
         *newent = *oldent;
+
+        newent->symbol = assignBodySymbol(newent->direction);
     }
 
     Entity* head = &entities->arr[0];
@@ -62,4 +106,6 @@ void moveSnake(EntityArray* entities, Snake* snake, Vec2i direction)
     head->direction = direction;
     head->position.x += direction.x;
     head->position.y += direction.y;
+
+    head->symbol = assignHeadSymbol(direction);
 }
