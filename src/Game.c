@@ -76,10 +76,10 @@ int checkWallColisions(EntityArray* entities, Vec2i* maxScreenCoords)
 {
     Entity* snakehead = &entities->arr[0];
 
-    int leftcheck = snakehead->position.x <= 0;
-    int rightcheck = snakehead->position.x >= maxScreenCoords->x;
-    int topcheck = snakehead->position.y <= 0;
-    int bottomcheck = snakehead->position.y >= maxScreenCoords->y;
+    const int leftcheck = snakehead->position.x <= 0;
+    const int rightcheck = snakehead->position.x >= maxScreenCoords->x;
+    const int topcheck = snakehead->position.y <= 0;
+    const int bottomcheck = snakehead->position.y >= maxScreenCoords->y;
 
     return leftcheck || rightcheck || topcheck || bottomcheck;
 }
