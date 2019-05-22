@@ -5,6 +5,7 @@ project(Snake)
 add_executable(snake
     src/main.c
     src/Game.c
+    src/input/nix.c
     )
 target_include_directories(snake PUBLIC ${PROJECT_SOURCE_DIR}/include)
 

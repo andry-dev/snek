@@ -1,5 +1,8 @@
 #include "Game.h"
+#include "input/nix.h"
 
+#include <unistd.h>
+#include <termios.h>
 #include <stdio.h>
 
 void printSnake(Game* game)
@@ -18,23 +21,23 @@ void printSnake(Game* game)
 
 int main(void)
 {
+    struct termios term_settings;
     Vec2i maxScreen;
     scanf("%d", &maxScreen.x);
     scanf("%d", &maxScreen.y);
+    Vec2i newDirection;
     Game game = initGame(maxScreen);
+    char input;
+    newDirection.x = 0;
+    newDirection.y = -1;
+    initTerm(&term_settings); // Switches to no echo, unbuffered mode
 
     printSnake(&game);
-
+    
     // Game loop
     while (1)
     {
-        Vec2i newDirection;
-        newDirection.x = 0;
-        newDirection.y = 0;
-
-        char input = 0;
-        scanf("%c\n", &input);
-
+        input = getch();
 
         switch (input)
         {
@@ -62,13 +65,8 @@ int main(void)
             newDirection.y = 0;
             break;
         }
-
-
+        
         moveSnake(&game.entities, &game.snake, newDirection);
-
-
-        newDirection.x = 0;
-        newDirection.y = 0;
 
         printSnake(&game);
 
@@ -76,12 +74,11 @@ int main(void)
         if (checkCollision)
         {
             printf("You lose\n");
-            return 1;
+            break;
         }
-
     }
 
-
+    restoreTermState(&term_settings); // Restores initial tty settings
     deinitGame(&game);
 
     return 0;
