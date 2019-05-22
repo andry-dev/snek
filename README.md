@@ -7,6 +7,6 @@
 ## TODO
 
 Input:
-    * [x] Linux/OSX
-    * [ ] Windows
+    - [x] Linux/OSX
+    - [ ] Windows
 
