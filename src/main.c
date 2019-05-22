@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "input/Common.h"
 
 #include <stdio.h>
 #include "Renderer.h"
@@ -22,22 +23,22 @@ int main(void)
     Vec2i maxScreen;
     scanf("%d", &maxScreen.x);
     scanf("%d", &maxScreen.y);
+    Vec2i newDirection;
     Game game = initGame(maxScreen);
+    char input;
+    newDirection.x = 0;
+    newDirection.y = -1;
 
-    printSnake(&game);
+    TerminalContext* term = initTerm();
+
+    //printSnake(&game);
 
     Screen screen = initScreen(game.screenCoords);
 
     // Game loop
     while (1)
     {
-
-        Vec2i newDirection;
-        newDirection.x = 0;
-        newDirection.y = 0;
-
-        char input = 0;
-        scanf("%c\n", &input);
+        input = getch(term);
 
         switch (input)
         {
@@ -66,11 +67,7 @@ int main(void)
             break;
         }
 
-
         moveSnake(&game.entities, &game.snake, newDirection);
-
-        newDirection.x = 0;
-        newDirection.y = 0;
 
         int checkCollision = checkWallColisions(&game.entities, &game.screenCoords);
         if (checkCollision)
@@ -85,6 +82,7 @@ int main(void)
 
 
     deinitScreen(&screen);
+    deinitTerm(term);
     deinitGame(&game);
 
     return 0;
