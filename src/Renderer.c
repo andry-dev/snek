@@ -12,7 +12,7 @@ Screen initScreen(Vec2i screenCoords, TerminalContext* term)
     scr.screenCoords = screenCoords;
     scr.screenCoords.x += 2; // Accounting for \n
     scr.capacity = scr.screenCoords.x * scr.screenCoords.y;
-    scr.framebuffer = malloc(sizeof(char32_t) * scr.capacity);
+    scr.framebuffer = malloc(sizeof(char) * scr.capacity);
     scr.term = term;
 
     return scr;

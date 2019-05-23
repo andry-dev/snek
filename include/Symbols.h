@@ -1,21 +1,20 @@
 #ifndef SNAKE_SYMBOLS_H
 #define SNAKE_SYMBOLS_H
 
-#include <uchar.h>
 
-static const char32_t symSnakeHeadLeft = '<';
-static const char32_t symSnakeHeadRight = '>';
-static const char32_t symSnakeHeadDown = 'v';
-static const char32_t symSnakeHeadUp = '^';
+static const char symSnakeHeadLeft = U'<';
+static const char symSnakeHeadRight = U'>';
+static const char symSnakeHeadDown = U'v';
+static const char symSnakeHeadUp = U'^';
 
-static const char32_t symSnakeBodyHoriz = '-';
-static const char32_t symSnakeBodyVert = '|';
+static const char symSnakeBodyHoriz = U'-';
+static const char symSnakeBodyVert = U'|';
 
-static const char32_t symHorizWall = '=';
-static const char32_t symVertWall = '|';
+static const char symHorizWall = U'=';
+static const char symVertWall = U'|';
 
-static const char32_t symFruit = '*';
-static const char32_t symBackground = ' ';
+static const char symFruit = '*';
+static const char symBackground = ' ';
 
 
 #endif

@@ -5,7 +5,6 @@
 #include "Entities.h"
 #include "input/Common.h"
 
-#include <uchar.h>
 
 typedef struct
 {
