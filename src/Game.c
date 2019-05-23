@@ -66,7 +66,7 @@ Game initGame(Vec2i screenCoords)
     {
         Entity* ent = &game.entities.arr[i];
         ent->position.x = snakehead->position.x;
-        ent->position.y = snakehead->position.y - i;
+        ent->position.y = snakehead->position.y + i;
         ent->direction.x = 0;
         ent->direction.y = -1;
     }
