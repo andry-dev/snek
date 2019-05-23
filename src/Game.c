@@ -2,25 +2,27 @@
 
 #include <stdlib.h>
 
+#include "Symbols.h"
+
 static char assignHeadSymbol(Vec2i direction)
 {
     char ret = ' ';
 
     if (direction.x == 1)
     {
-        ret = '>';
+        ret = symSnakeHeadRight;
     }
     else if (direction.x == -1)
     {
-        ret = '<';
+        ret = symSnakeHeadLeft;
     }
     else if (direction.y == -1)
     {
-        ret = '^';
+        ret = symSnakeHeadUp;
     }
     else if (direction.y == 1)
     {
-        ret = 'v';
+        ret = symSnakeHeadDown;
     }
 
     return ret;
@@ -33,12 +35,12 @@ static char assignBodySymbol(Vec2i direction)
     if (direction.x == -1 ||
         direction.x == 1)
     {
-        ret = '-';
+        ret = symSnakeBodyHoriz;
     }
     else if (direction.y == -1 ||
              direction.y == 1)
     {
-        ret = '|';
+        ret = symSnakeBodyVert;
     }
 
     return ret;

@@ -44,3 +44,8 @@ char getch(TerminalContext* context)
     return input;
 }
 
+
+void clearTerm(struct terminal_context_t* context)
+{
+    printf("\033[2J\033[1;1H");
+}

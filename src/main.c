@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "Renderer.h"
 
+#include <unistd.h>
+
 void printSnake(Game* game)
 {
     printf("Coords: %d %d\n", game->screenCoords.x, game->screenCoords.y);
@@ -33,7 +35,7 @@ int main(void)
 
     //printSnake(&game);
 
-    Screen screen = initScreen(game.screenCoords);
+    Screen screen = initScreen(game.screenCoords, term);
 
     // Game loop
     while (1)
@@ -76,13 +78,15 @@ int main(void)
             break;
         }
 
+        usleep(500000);
+
         clearScreen(&screen);
         draw(&screen, &game.snake, &game.foods, &game.entities);
     }
 
 
-    deinitScreen(&screen);
     deinitTerm(term);
+    deinitScreen(&screen);
     deinitGame(&game);
 
     return 0;
