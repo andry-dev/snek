@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include "Renderer.h"
 
-#include <unistd.h>
-
+#include "Timings.h"
 
 int main(void)
 {
@@ -22,9 +21,16 @@ int main(void)
 
     Screen screen = initScreen(game.screenCoords, term);
 
+    const double maxfps = 1000.0 * 90.0;
+
+    double lastTime = getCurrentTime();
+
     // Game loop
     while (1)
     {
+        const double current = getCurrentTime();
+        const double elapsed = current - lastTime;
+
         input = getch(term);
 
         switch (input)
@@ -54,6 +60,11 @@ int main(void)
             break;
         }
 
+        if (elapsed < maxfps)
+        {
+            sleepmillis(maxfps - elapsed);
+        }
+
         moveSnake(&game.snake, newDirection);
 
         Entity* foodent = checkCollisions(&game.snake, &game.foods);
@@ -71,10 +82,10 @@ int main(void)
             break;
         }
 
-        usleep(250000);
-
         clearScreen(&screen);
         draw(&screen, &game.snake, &game.foods);
+
+        lastTime = current;
     }
 
 
