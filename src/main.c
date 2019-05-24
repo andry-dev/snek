@@ -6,19 +6,6 @@
 
 #include <unistd.h>
 
-void printSnake(Game* game)
-{
-    printf("Coords: %d %d\n", game->screenCoords.x, game->screenCoords.y);
-    printf("Head: %d %d\n", game->entities.arr[0].position.x, game->entities.arr[0].position.y);
-
-    printf("Body parts\n");
-    for (int i = 1; i < game->snake.length; ++i)
-    {
-        printf("Body %d: %d %d\n", i, game->entities.arr[i].position.x,
-                                      game->entities.arr[i].position.y);
-    }
-}
-
 
 int main(void)
 {
@@ -32,8 +19,6 @@ int main(void)
     newDirection.y = -1;
 
     TerminalContext* term = initTerm();
-
-    //printSnake(&game);
 
     Screen screen = initScreen(game.screenCoords, term);
 
@@ -69,9 +54,9 @@ int main(void)
             break;
         }
 
-        moveSnake(&game.entities, &game.snake, newDirection);
+        moveSnake(&game.snake, newDirection);
 
-        int checkCollision = checkWallColisions(&game.entities, &game.screenCoords);
+        int checkCollision = checkWallCollisions(&game.snake, &game.screenCoords);
         if (checkCollision)
         {
             printf("You lose\n");
@@ -81,7 +66,7 @@ int main(void)
         usleep(500000);
 
         clearScreen(&screen);
-        draw(&screen, &game.snake, &game.foods, &game.entities);
+        draw(&screen, &game.snake, &game.foods);
     }
 
 

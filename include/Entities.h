@@ -14,23 +14,20 @@ typedef struct
 
 typedef struct
 {
+    Entity* body;
     int length;
+    int capacity;
 } Snake;
 
 typedef struct
 {
-    Entity* arr;
+    Entity* array;
+    int length;
     int capacity;
-} EntityArray;
-
-typedef struct
-{
-    int quantity;
 } Foods;
 
-EntityArray initEntities(int num, Snake* snake, Foods* foods);
-void addSnakePart(EntityArray* entities, Snake* snake, Entity* newEntity);
-void addFood(EntityArray* entities, Foods* foods, Entity* newEntity);
-void removeFood(EntityArray* entities, Foods* foods, Entity* toRemove);
+void addSnakePart(Snake* snake);
+void addFood(Foods* foods);
+void removeFood(Foods* foods, Entity* toRemove);
 
 #endif

@@ -39,7 +39,7 @@ void clearScreen(Screen* screen)
     }
 }
 
-void draw(Screen* screen, Snake* snake, Foods* foods, EntityArray* entities)
+void draw(Screen* screen, Snake* snake, Foods* foods)
 {
     // Left and right walls
     for (int y = 0; y < (screen->screenCoords.y); ++y)
@@ -63,11 +63,22 @@ void draw(Screen* screen, Snake* snake, Foods* foods, EntityArray* entities)
         screen->framebuffer[topwall] = symHorizWall;
     }
 
+    for (int i = 0; i < foods->length; ++i)
+    {
+        Entity* food = &foods->array[i];
+        Vec2i* foodpos = &food->position;
+
+        const int ypos = foodpos->y;
+        const int coords = ypos * screen->screenCoords.x + foodpos->x;
+
+        screen->framebuffer[coords] = food->symbol;
+    }
+
     // Render snake on the screen
     for (int i = 0; i < snake->length; ++i)
     {
-        Entity* snake = &entities->arr[i];
-        Vec2i* snakepos = &snake->position;
+        Entity* snakepart = &snake->body[i];
+        Vec2i* snakepos = &snakepart->position;
         const int ypos = snakepos->y;
         const int coords = ypos * screen->screenCoords.x + snakepos->x;
 
@@ -79,7 +90,7 @@ void draw(Screen* screen, Snake* snake, Foods* foods, EntityArray* entities)
             continue;
         }
 
-        screen->framebuffer[coords] = snake->symbol;
+        screen->framebuffer[coords] = snakepart->symbol;
     }
 
     for (int i = 0; i < screen->screenCoords.y; ++i)

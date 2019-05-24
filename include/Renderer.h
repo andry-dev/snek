@@ -16,7 +16,7 @@ typedef struct
 
 Screen initScreen(Vec2i screenCoords, TerminalContext* term);
 void deinitScreen(Screen* screen);
-void draw(Screen* screen, Snake* snake, Foods* foods, EntityArray* entities);
+void draw(Screen* screen, Snake* snake, Foods* foods);
 void clearScreen(Screen* screen);
 
 #endif

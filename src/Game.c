@@ -1,62 +1,27 @@
 #include "Game.h"
 
 #include <stdlib.h>
+#include <time.h>
 
+#include "Utils.h"
 #include "Symbols.h"
 
-static char assignHeadSymbol(Vec2i direction)
-{
-    char ret = ' ';
-
-    if (direction.x == 1)
-    {
-        ret = symSnakeHeadRight;
-    }
-    else if (direction.x == -1)
-    {
-        ret = symSnakeHeadLeft;
-    }
-    else if (direction.y == -1)
-    {
-        ret = symSnakeHeadUp;
-    }
-    else if (direction.y == 1)
-    {
-        ret = symSnakeHeadDown;
-    }
-
-    return ret;
-}
-
-static char assignBodySymbol(Vec2i direction)
-{
-    char ret = ' ';
-
-    if (direction.x == -1 ||
-        direction.x == 1)
-    {
-        ret = symSnakeBodyHoriz;
-    }
-    else if (direction.y == -1 ||
-             direction.y == 1)
-    {
-        ret = symSnakeBodyVert;
-    }
-
-    return ret;
-}
 
 Game initGame(Vec2i screenCoords)
 {
     Game game;
 
-    game.screenCoords = screenCoords;
-    game.entities.capacity = 20;
-    game.entities.arr = malloc(sizeof(Entity) * game.entities.capacity);
-
     game.snake.length = 8;
+    game.snake.capacity = 20;
+    game.snake.body = malloc(sizeof(Entity) * game.snake.capacity);
 
-    Entity* snakehead = game.entities.arr;
+    game.foods.length = 2;
+    game.foods.capacity = 10;
+    game.foods.array = malloc(sizeof(Entity) * game.foods.capacity);
+
+    game.screenCoords = screenCoords;
+
+    Entity* snakehead = game.snake.body;
     snakehead->position.x = screenCoords.x / 2;
     snakehead->position.y = screenCoords.y / 2;
     snakehead->direction.x = 0;
@@ -64,19 +29,48 @@ Game initGame(Vec2i screenCoords)
 
     for (int i = 1; i < game.snake.length; ++i)
     {
-        Entity* ent = &game.entities.arr[i];
+        Entity* ent = &game.snake.body[i];
         ent->position.x = snakehead->position.x;
         ent->position.y = snakehead->position.y + i;
         ent->direction.x = 0;
         ent->direction.y = -1;
     }
 
+    srand(time(0));
+
+    for (int i = 0; i < game.foods.length; ++i)
+    {
+        Entity* ent = &game.foods.array[i];
+
+        ent->symbol = symFruit;
+        ent->position.x = 1 + (rand() % (screenCoords.x - 1));
+        ent->position.y = 1 + (rand() % (screenCoords.y - 1));
+    }
+
     return game;
 }
 
-int checkWallColisions(EntityArray* entities, Vec2i* maxScreenCoords)
+Entity* checkCollisions(Snake* snake, Foods* foods)
 {
-    Entity* snakehead = &entities->arr[0];
+    Vec2i* snakepos = &snake->body[0].position;
+
+    for (int i = 0; i < foods->length; ++i)
+    {
+        Vec2i* foodpos = &foods->array[i].position;
+
+        if ((snakepos->x == foodpos->x) &&
+            (snakepos->y == foodpos->y))
+        {
+            return &foods->array[i];
+        }
+    }
+
+    return 0;
+}
+
+int checkWallCollisions(Snake* snake, Vec2i* maxScreenCoords)
+{
+    Entity* snakehead = &snake->body[0];
 
     const int leftcheck = snakehead->position.x <= 0;
     const int rightcheck = snakehead->position.x >= maxScreenCoords->x;
@@ -88,22 +82,15 @@ int checkWallColisions(EntityArray* entities, Vec2i* maxScreenCoords)
 
 void deinitGame(Game* game)
 {
-    free(game->entities.arr);
+    free(game->snake.body);
+    free(game->foods.array);
 }
 
-void moveSnake(EntityArray* entities, Snake* snake, Vec2i direction)
+void moveSnake(Snake* snake, Vec2i direction)
 {
-    for (int i = snake->length - 1; i > 0; --i)
-    {
-        Entity* newent = &entities->arr[i];
-        Entity* oldent = &entities->arr[i - 1];
+    copySnakeParts(snake);
 
-        *newent = *oldent;
-
-        newent->symbol = assignBodySymbol(newent->direction);
-    }
-
-    Entity* head = &entities->arr[0];
+    Entity* head = &snake->body[0];
 
     head->direction = direction;
     head->position.x += direction.x;

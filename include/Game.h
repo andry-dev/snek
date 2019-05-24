@@ -6,7 +6,6 @@
 
 typedef struct
 {
-    EntityArray entities;
     Snake snake;
     Foods foods;
 
@@ -14,9 +13,9 @@ typedef struct
 } Game;
 
 Game initGame(Vec2i screenCoords);
-Entity* checkCollisions(EntityArray* entities, Snake* snake, Foods* foods);
-int checkWallColisions(EntityArray* entities, Vec2i* maxScreenCoords);
-void moveSnake(EntityArray* entities, Snake* snake, Vec2i direction);
+Entity* checkCollisions(Snake* snake, Foods* foods);
+int checkWallCollisions(Snake* snake, Vec2i* maxScreenCoords);
+void moveSnake(Snake* snake, Vec2i direction);
 void deinitGame(Game* game);
 
 #endif
