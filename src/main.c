@@ -56,6 +56,14 @@ int main(void)
 
         moveSnake(&game.snake, newDirection);
 
+        Entity* foodent = checkCollisions(&game.snake, &game.foods);
+        if (foodent)
+        {
+            addSnakePart(&game.snake);
+            removeFood(&game.foods, foodent);
+            addFood(&game.foods, game.screenCoords);
+        }
+
         int checkCollision = checkWallCollisions(&game.snake, &game.screenCoords);
         if (checkCollision)
         {
@@ -63,7 +71,7 @@ int main(void)
             break;
         }
 
-        usleep(500000);
+        usleep(250000);
 
         clearScreen(&screen);
         draw(&screen, &game.snake, &game.foods);

@@ -12,7 +12,7 @@ Game initGame(Vec2i screenCoords)
     Game game;
 
     game.snake.length = 8;
-    game.snake.capacity = 20;
+    game.snake.capacity = 10;
     game.snake.body = malloc(sizeof(Entity) * game.snake.capacity);
 
     game.foods.length = 2;
@@ -43,8 +43,7 @@ Game initGame(Vec2i screenCoords)
         Entity* ent = &game.foods.array[i];
 
         ent->symbol = symFruit;
-        ent->position.x = 1 + (rand() % (screenCoords.x - 1));
-        ent->position.y = 1 + (rand() % (screenCoords.y - 1));
+        ent->position = generateRandomPosition(screenCoords);
     }
 
     return game;
@@ -75,7 +74,7 @@ int checkWallCollisions(Snake* snake, Vec2i* maxScreenCoords)
     const int leftcheck = snakehead->position.x <= 0;
     const int rightcheck = snakehead->position.x >= maxScreenCoords->x;
     const int topcheck = snakehead->position.y <= 0;
-    const int bottomcheck = snakehead->position.y >= maxScreenCoords->y;
+    const int bottomcheck = snakehead->position.y >= (maxScreenCoords->y - 1);
 
     return leftcheck || rightcheck || topcheck || bottomcheck;
 }

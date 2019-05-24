@@ -27,7 +27,7 @@ typedef struct
 } Foods;
 
 void addSnakePart(Snake* snake);
-void addFood(Foods* foods);
+void addFood(Foods* foods, Vec2i screenCoords);
 void removeFood(Foods* foods, Entity* toRemove);
 
 #endif

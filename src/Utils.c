@@ -2,6 +2,8 @@
 
 #include "Symbols.h"
 
+#include <stdlib.h>
+
 char assignHeadSymbol(Vec2i direction)
 {
     char ret = ' ';
@@ -55,4 +57,18 @@ void copySnakeParts(Snake* snake)
 
         newent->symbol = assignBodySymbol(newent->direction);
     }
+}
+
+Vec2i generateRandomPosition(Vec2i screenCoords)
+{
+    Vec2i ret;
+
+    const int min = 2;
+    const int xmax = screenCoords.x - 1;
+    const int ymax = screenCoords.y - 1;
+
+    ret.x = ((double)rand() / (double)RAND_MAX * (xmax - min) + min);
+    ret.y = ((double)rand() / (double)RAND_MAX * (ymax - min) + min);
+
+    return ret;
 }

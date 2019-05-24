@@ -9,4 +9,6 @@ char assignBodySymbol(Vec2i direction);
 
 void copySnakeParts(Snake* snake);
 
+Vec2i generateRandomPosition(Vec2i screenCoords);
+
 #endif
