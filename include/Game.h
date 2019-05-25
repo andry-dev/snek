@@ -14,6 +14,7 @@ typedef struct
 
 Game initGame(Vec2i screenCoords);
 Entity* checkCollisions(Snake* snake, Foods* foods);
+int checkSelfCollisions(Snake* snake);
 int checkWallCollisions(Snake* snake, Vec2i* maxScreenCoords);
 void moveSnake(Snake* snake, Vec2i direction);
 void deinitGame(Game* game);

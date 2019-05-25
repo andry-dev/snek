@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "input/Common.h"
+#include "Terminal.h"
 
 #include <stdio.h>
 #include "Renderer.h"
@@ -8,16 +8,18 @@
 
 int main(void)
 {
-    Vec2i maxScreen;
-    scanf("%d", &maxScreen.x);
-    scanf("%d", &maxScreen.y);
+    TerminalContext* term = initTerm();
+
+    Vec2i maxScreen = getTermSize(term);
+    // Account for rendering
+    --maxScreen.x;
+    --maxScreen.y;
+
     Vec2i newDirection;
     Game game = initGame(maxScreen);
     char input;
     newDirection.x = 0;
     newDirection.y = -1;
-
-    TerminalContext* term = initTerm();
 
     Screen screen = initScreen(game.screenCoords, term);
 
@@ -67,6 +69,14 @@ int main(void)
 
         moveSnake(&game.snake, newDirection);
 
+        int wallCollision = checkWallCollisions(&game.snake, &game.screenCoords);
+        int snakeCollision = checkSelfCollisions(&game.snake);
+        if (wallCollision || snakeCollision)
+        {
+            printf("You lose\n");
+            break;
+        }
+
         Entity* foodent = checkCollisions(&game.snake, &game.foods);
         if (foodent)
         {
@@ -75,12 +85,6 @@ int main(void)
             addFood(&game.foods, game.screenCoords);
         }
 
-        int checkCollision = checkWallCollisions(&game.snake, &game.screenCoords);
-        if (checkCollision)
-        {
-            printf("You lose\n");
-            break;
-        }
 
         clearScreen(&screen);
         draw(&screen, &game.snake, &game.foods);

@@ -67,6 +67,24 @@ Entity* checkCollisions(Snake* snake, Foods* foods)
     return 0;
 }
 
+int checkSelfCollisions(Snake* snake)
+{
+    Vec2i* headpos = &snake->body[0].position;
+
+    for (int i = 1; i < snake->length; ++i)
+    {
+        Vec2i* partpos = &snake->body[i].position;
+
+        if ((headpos->x == partpos->x) &&
+            (headpos->y == partpos->y))
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int checkWallCollisions(Snake* snake, Vec2i* maxScreenCoords)
 {
     Entity* snakehead = &snake->body[0];

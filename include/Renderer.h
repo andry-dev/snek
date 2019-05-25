@@ -3,7 +3,7 @@
 
 #include "Types.h"
 #include "Entities.h"
-#include "input/Common.h"
+#include "Terminal.h"
 
 
 typedef struct
