@@ -9,7 +9,6 @@
 int main(void)
 {
     TerminalContext* term = initTerm();
-
     Vec2i maxScreen = getTermSize(term);
     // Account for rendering
     --maxScreen.x;

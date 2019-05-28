@@ -5,12 +5,14 @@
 double getCurrentTime()
 {
     LARGE_INTEGER time;
+    LARGE_INTEGER freq;
+    QueryPerformanceFrequency(&freq);
     QueryPerformanceCounter(&time);
 
-    return (double)time.QuadPart / 1000;
+    return ((double)time.QuadPart * 1000)/(double)freq.QuadPart;
 }
 
 void sleepmillis(int millis)
 {
-    Sleep(millis);
+    Sleep(millis / 1000);
 }

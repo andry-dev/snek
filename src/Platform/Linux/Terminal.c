@@ -65,7 +65,7 @@ void deinitTerm(struct terminal_context_t* context)
     }
 }
 
-char getch(TerminalContext* context)
+char getch(struct terminal_context_t* context)
 {
     (void)context;
     char input = 0;
