@@ -13,7 +13,7 @@ int main(void)
     Vec2i maxScreen = getTermSize(term);
     // Account for rendering
     --maxScreen.x;
-    --maxScreen.y;
+    maxScreen.y -= 2;
 
     Vec2i newDirection;
     Game game = initGame(maxScreen);
@@ -23,13 +23,15 @@ int main(void)
 
     Screen screen = initScreen(game.screenCoords, term);
 
-    const double maxfps = 1000.0 * 90.0;
+    const double maxfps = 1000.0 * 60.0;
 
     double lastTime = getCurrentTime();
 
     // Game loop
     while (1)
     {
+        clearScreen(&screen);
+
         const double current = getCurrentTime();
         const double elapsed = current - lastTime;
 
@@ -62,6 +64,14 @@ int main(void)
             break;
         }
 
+        {
+            int shouldQuit = querySignals(term);
+            if (shouldQuit)
+            {
+                break;
+            }
+        }
+
         if (elapsed < maxfps)
         {
             sleepmillis(maxfps - elapsed);
@@ -73,7 +83,8 @@ int main(void)
         int snakeCollision = checkSelfCollisions(&game.snake);
         if (wallCollision || snakeCollision)
         {
-            printf("You lose\n");
+            clearScreen(&screen);
+            printf("You lose. SCORE: %d\n", game.scoring);
             break;
         }
 
@@ -83,10 +94,11 @@ int main(void)
             addSnakePart(&game.snake);
             removeFood(&game.foods, foodent);
             addFood(&game.foods, game.screenCoords);
+            ++game.scoring;
         }
 
 
-        clearScreen(&screen);
+        drawScore(&screen, game.scoring);
         draw(&screen, &game.snake, &game.foods);
 
         lastTime = current;

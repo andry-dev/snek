@@ -4,20 +4,31 @@
 #include <stdlib.h>
 
 #include <sys/ioctl.h>
+#include <fcntl.h>
 
 #include "Terminal.h"
+
+#include <signal.h>
 
 struct terminal_context_t
 {
     struct termios term;
     struct winsize size;
+    sigset_t signals;
 };
+
 
 struct terminal_context_t* initTerm()
 {
     struct terminal_context_t* ret = malloc(sizeof(struct terminal_context_t));
 
+    sigemptyset(&ret->signals);
+    sigaddset(&ret->signals, SIGINT);
+    sigprocmask(SIG_BLOCK, &ret->signals, 0);
+
     ioctl(0, TIOCGWINSZ, &ret->size);
+
+    printf("\033[2J\033[?25l");
 
     tcgetattr(0, &ret->term);
 
@@ -46,6 +57,8 @@ Vec2i getTermSize(struct terminal_context_t* context)
 void deinitTerm(struct terminal_context_t* context)
 {
     tcsetattr(0, TCSANOW, &context->term);
+    printf("\033[J\033[?25h");
+
     if (context)
     {
         free(context);
@@ -60,9 +73,26 @@ char getch(TerminalContext* context)
     return input;
 }
 
+void drawToTerm(struct terminal_context_t* context, char* buffer, int size)
+{
+    (void)context;
+    write(STDOUT_FILENO, buffer, size);
+    //printf("%.*s", size, buffer);
+}
 
 void clearTerm(struct terminal_context_t* context)
 {
     (void)context;
-    printf("\033[2J\033[1;1H");
+    printf("\033[0;0H");
+}
+
+int querySignals(struct terminal_context_t* context)
+{
+    sigpending(&context->signals);
+    if (sigismember(&context->signals, SIGINT))
+    {
+        return 1;
+    }
+
+    return 0;
 }

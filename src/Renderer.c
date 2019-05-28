@@ -26,17 +26,25 @@ void deinitScreen(Screen* screen)
     }
 }
 
+
+
 void clearScreen(Screen* screen)
 {
     // hack
     //system("clear");
     //
 
-    clearTerm(screen->term);
     for (int i = 0; i < screen->capacity; ++i)
     {
         screen->framebuffer[i] = symBackground;
     }
+
+    clearTerm(screen->term);
+}
+
+void drawScore(Screen* screen, int score)
+{
+    printf("SCORE: %d\n", score);
 }
 
 void draw(Screen* screen, Snake* snake, Foods* foods)
@@ -99,5 +107,5 @@ void draw(Screen* screen, Snake* snake, Foods* foods)
         screen->framebuffer[coords] = '\n';
     }
 
-    printf("%.*s", screen->capacity, screen->framebuffer);
+    drawToTerm(screen->term, screen->framebuffer, screen->capacity);
 }

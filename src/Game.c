@@ -19,6 +19,7 @@ Game initGame(Vec2i screenCoords)
     game.foods.capacity = 10;
     game.foods.array = malloc(sizeof(Entity) * game.foods.capacity);
 
+    game.scoring = 0;
     game.screenCoords = screenCoords;
 
     Entity* snakehead = game.snake.body;

@@ -9,6 +9,7 @@ typedef struct
     Snake snake;
     Foods foods;
 
+    int scoring;
     Vec2i screenCoords;
 } Game;
 
