@@ -44,6 +44,7 @@ void clearScreen(Screen* screen)
 
 void drawScore(Screen* screen, int score)
 {
+    (void)screen;
     printf("SCORE: %d\n", score);
 }
 
