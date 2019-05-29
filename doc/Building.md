@@ -16,8 +16,6 @@ cmake --build .
 
 You can use either [MSVC from Visual Studio](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16),
 [MinGW](http://www.mingw.org/) or [STL's MinGW](https://nuwen.net/mingw.html).
-If none of these options are available, you can use [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux)
-with the Linux instructions.
 
 ### For Visual Studio (Build Tools for VS or the actual IDE)
 

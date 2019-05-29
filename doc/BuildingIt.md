@@ -19,8 +19,6 @@ continuare a leggere.
 
 Puoi usare [MSVC da Visual Studio](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16),
 [MinGW](http://www.mingw.org/) o [MinGW di STL](https://nuwen.net/mingw.html).
-Se non vuoi usare nessuno di questi, rimane [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux)
-usando poi le istruzioni di per Linux.
 
 ### Per Visual Studio (Build Tools for VS o l'intero IDE)
 
