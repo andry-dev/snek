@@ -19,7 +19,7 @@ if (WIN32)
         src/Platform/Windows/Timings.c
         src/Platform/Windows/Terminal.c
     )
-elseif(UNIX AND NOT APPLE)
+elseif(UNIX AND APPLE)
     target_compile_options(snake PRIVATE -Wall -Wextra -pedantic -Wpedantic)
     target_sources(snake PRIVATE
         src/Platform/OSX/Timings.c
