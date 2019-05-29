@@ -16,12 +16,20 @@ set_property(TARGET snake PROPERTY C_STANDARD 11)
 
 if (WIN32)
     target_sources(snake PRIVATE
-        src/Platform/Windows/Terminal.c)
+        src/Platform/Windows/Timings.c
+        src/Platform/Windows/Terminal.c
+    )
+elseif(UNIX AND NOT APPLE)
+    target_compile_options(snake PRIVATE -Wall -Wextra -pedantic -Wpedantic)
+    target_sources(snake PRIVATE
+        src/Platform/OSX/Timings.c
+        src/Platform/Linux/Terminal.c
+    )
 elseif(UNIX)
-    target_compile_options(snake PRIVATE -fsanitize=address -Wall -Wextra -pedantic -Wpedantic)
-    target_link_libraries(snake PRIVATE asan)
+    target_compile_options(snake PRIVATE -Wall -Wextra -pedantic -Wpedantic)
     target_sources(snake PRIVATE
         src/Platform/Linux/Timings.c
         src/Platform/Linux/Terminal.c
     )
+
 endif()
