@@ -4,12 +4,14 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdlib.h>
+#include <signal.h>
 
 struct terminal_context_t
 {
     HANDLE hStdin;
     HANDLE hStdout;
     DWORD mode;
+    sigset_t signals;
     unsigned short col;
     unsigned short rows;
 };
@@ -91,6 +93,10 @@ void clearTerm(struct terminal_context_t* context)
 
 int querySignals(struct terminal_context_t* context)
 {
-	//TODO: Implement signal handling on Windows.
+	char c = getch (context);
+    if (GetKeyState(VK_CONTROL) && (c == 's' || c == 'S'))
+    {
+        return 1;
+    }
 	return 0;
 }
