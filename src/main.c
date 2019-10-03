@@ -17,6 +17,7 @@ int main(void)
     Vec2i newDirection;
     Game game = initGame(maxScreen);
     char input;
+    int quitPending = 0;
     newDirection.x = 0;
     newDirection.y = -1;
 
@@ -35,7 +36,7 @@ int main(void)
         const double elapsed = current - lastTime;
 
         input = getch(term);
-
+        
         switch (input)
         {
         case 'w':
@@ -61,12 +62,17 @@ int main(void)
             newDirection.x = 1;
             newDirection.y = 0;
             break;
+        case 27:
+            quitPending = 1;
+            break;
         }
 
         {
             int shouldQuit = querySignals(term);
-            if (shouldQuit)
+            if (shouldQuit || quitPending)
             {
+                clearScreen(&screen);
+                printf("You quit. SCORE: %d\n", game.scoring);
                 break;
             }
         }

@@ -34,7 +34,7 @@ struct terminal_context_t* initTerm()
     temp_mode = ret->mode;
 
     temp_mode &= ~ENABLE_ECHO_INPUT;
-    temp_mode &= ~ENABLE_LINE_INPUT;
+    temp_mode &= ~ENABLE_LINE_INPUT; 
 
     SetConsoleMode(ret->hStdin, &temp_mode);
     
@@ -72,7 +72,7 @@ char getch(struct terminal_context_t* context)
             &&  !event.Event.KeyEvent.bKeyDown)
         {
         	return event.Event.KeyEvent.uChar.AsciiChar;
-        }	
+        }
     }
     return 0;
 }
@@ -91,6 +91,6 @@ void clearTerm(struct terminal_context_t* context)
 
 int querySignals(struct terminal_context_t* context)
 {
-	//TODO: Implement signal handling on Windows.
+    //TODO: Implement signal handling on Windows.	
 	return 0;
 }
